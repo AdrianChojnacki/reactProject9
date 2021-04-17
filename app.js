@@ -2,12 +2,17 @@ class Counter extends React.Component {
   state = {
     result: 1,
     ratio: 2,
+    interval: "",
   };
 
   handleClick = () => {
     this.setState((state) => ({
       result: state.result * state.ratio,
     }));
+  };
+
+  handleClickStop = () => {
+    clearInterval(this.state.interval);
   };
 
   componentDidUpdate() {
@@ -23,7 +28,11 @@ class Counter extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(this.handleClick, 500);
+    let interval = setInterval(this.handleClick, 1000);
+
+    this.setState(() => ({
+      interval,
+    }));
   }
 
   render() {
@@ -36,6 +45,7 @@ class Counter extends React.Component {
         </p>
         <button onClick={this.handleClick}>{`Pomnóż przez ${this.state.ratio}`}</button>
         <h1>Wynik: {this.state.result}</h1>
+        <button onClick={this.handleClickStop}>Wyłącz automat</button>
       </div>
     );
   }
